@@ -1,4 +1,3 @@
-
 package udemy.nelio.spring_mongo.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -10,6 +9,6 @@ import udemy.nelio.spring_mongo.model.Product;
  * @author carol
  */
 @Repository
-public interface ProductRepository extends MongoRepository<Product, String>{
-    
+public interface ProductRepository extends MongoRepository<Product, String> {
+
 }

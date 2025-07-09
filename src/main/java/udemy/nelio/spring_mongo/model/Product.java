@@ -81,4 +81,10 @@ public class Product implements Serializable {
         final Product other = (Product) obj;
         return Objects.equals(this.id, other.id);
     }
+
+    @Override
+    public String toString() {
+        return "Product{" + "id=" + id + ", nome=" + nome + ", description=" + description + ", preco=" + preco + '}';
+    }
+
 }

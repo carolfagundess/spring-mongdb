@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import udemy.nelio.spring_mongo.model.Product;
 import udemy.nelio.spring_mongo.repository.ProductRepository;
+import udemy.nelio.spring_mongo.service.execptions.ObjectNotFoundException;
 
 /**
  *
@@ -12,11 +13,17 @@ import udemy.nelio.spring_mongo.repository.ProductRepository;
  */
 @Service
 public class ProductService {
-    
+
     @Autowired
     private ProductRepository prRepostiory;
 
     public List<Product> findAll() {
         return prRepostiory.findAll();
+    }
+
+    public Product findById(String id) {
+        // Busca o produto. Se não encontrar, lança a exceção informada.
+        return prRepostiory.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! ID: " + id));
     }
 }

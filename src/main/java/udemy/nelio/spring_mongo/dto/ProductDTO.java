@@ -7,7 +7,7 @@ import udemy.nelio.spring_mongo.model.Product;
  *
  * @author carol
  */
-public class ProductDTO implements Serializable{
+public class ProductDTO implements Serializable {
 
     private String id;
     private String nome;
@@ -55,6 +55,5 @@ public class ProductDTO implements Serializable{
     public void setPreco(Double preco) {
         this.preco = preco;
     }
-    
-    
+
 }
