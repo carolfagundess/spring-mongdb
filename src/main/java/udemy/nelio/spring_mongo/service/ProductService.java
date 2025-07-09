@@ -27,14 +27,18 @@ public class ProductService {
         return prRepostiory.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! ID: " + id));
     }
-    
-    public Product insert(Product product){
+
+    public Product insert(Product product) {
         return prRepostiory.insert(product);
     }
-    
-    
+
+    public void delete(String id) {
+        findById(id); //encontra o objeto primeiro e se nao achar lança exception
+        prRepostiory.deleteById(id);
+    }
+
     //caminho inverso :: DTO -> Entity
-    public Product fromDTO(ProductDTO dto){
+    public Product fromDTO(ProductDTO dto) {
         return new Product(dto.getId(), dto.getNome(), dto.getDescription(), dto.getPreco());
     }
 }
