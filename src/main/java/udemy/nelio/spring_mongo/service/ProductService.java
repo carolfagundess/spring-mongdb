@@ -3,6 +3,7 @@ package udemy.nelio.spring_mongo.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import udemy.nelio.spring_mongo.dto.ProductDTO;
 import udemy.nelio.spring_mongo.model.Product;
 import udemy.nelio.spring_mongo.repository.ProductRepository;
 import udemy.nelio.spring_mongo.service.execptions.ObjectNotFoundException;
@@ -25,5 +26,15 @@ public class ProductService {
         // Busca o produto. Se não encontrar, lança a exceção informada.
         return prRepostiory.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! ID: " + id));
+    }
+    
+    public Product insert(Product product){
+        return prRepostiory.insert(product);
+    }
+    
+    
+    //caminho inverso :: DTO -> Entity
+    public Product fromDTO(ProductDTO dto){
+        return new Product(dto.getId(), dto.getNome(), dto.getDescription(), dto.getPreco());
     }
 }
