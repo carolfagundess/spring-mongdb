@@ -1,15 +1,18 @@
-
 package udemy.nelio.spring_mongo.model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  *
  * @author carol
  */
-public class Product implements Serializable{
-    
+@Document
+public class Product implements Serializable {
+
+    @Id
     private String id;
     private String nome;
     private String description;
