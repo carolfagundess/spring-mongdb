@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,6 +57,15 @@ public class ProductController {
                 .toUri();
         return ResponseEntity.created(uri).build();
     }
+    
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Void> update(@RequestBody ProductDTO dto, @PathVariable String id) {
+        Product obj = prService.fromDTO(dto);
+        obj.setId(id);
+        obj = prService.update(obj);
+        return ResponseEntity.noContent().build();
+    }
+    
     
     @DeleteMapping("/{id}")
     public ResponseEntity<ProductDTO> delete(@PathVariable String id) {

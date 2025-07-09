@@ -36,9 +36,23 @@ public class ProductService {
         findById(id); //encontra o objeto primeiro e se nao achar lança exception
         prRepostiory.deleteById(id);
     }
+    
+    public Product update(Product obj){
+        Product newObj = findById(obj.getId());
+        updateData(newObj, obj);
+        return prRepostiory.save(newObj);
+        
+    }
 
     //caminho inverso :: DTO -> Entity
     public Product fromDTO(ProductDTO dto) {
         return new Product(dto.getId(), dto.getNome(), dto.getDescription(), dto.getPreco());
+    }
+    
+    public Product updateData(Product newObj, Product obj){
+        newObj.setNome(obj.getNome());
+        newObj.setDescription(obj.getDescription());
+        newObj.setPreco(obj.getPreco());
+        return null;
     }
 }
