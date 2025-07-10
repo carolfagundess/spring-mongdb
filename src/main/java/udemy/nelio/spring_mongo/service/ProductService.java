@@ -16,32 +16,31 @@ import udemy.nelio.spring_mongo.service.execptions.ObjectNotFoundException;
 public class ProductService {
 
     @Autowired
-    private ProductRepository prRepostiory;
+    private ProductRepository productRepository;
 
     public List<Product> findAll() {
-        return prRepostiory.findAll();
+        return productRepository.findAll();
     }
 
     public Product findById(String id) {
         // Busca o produto. Se não encontrar, lança a exceção informada.
-        return prRepostiory.findById(id)
+        return productRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! ID: " + id));
     }
 
     public Product insert(Product product) {
-        return prRepostiory.insert(product);
+        return productRepository.insert(product);
     }
 
     public void delete(String id) {
         findById(id); //encontra o objeto primeiro e se nao achar lança exception
-        prRepostiory.deleteById(id);
+        productRepository.deleteById(id);
     }
-    
+    //A linha findById(obj.getId()) usa o ID do objeto recebido para fazer uma busca no banco de dados. Ela procura pelo produto que já existe na base com aquele ID.
     public Product update(Product obj){
-        Product newObj = findById(obj.getId());
-        updateData(newObj, obj);
-        return prRepostiory.save(newObj);
-        
+        Product existingProduct  = findById(obj.getId());
+        updateData(existingProduct , obj);
+        return productRepository.save(existingProduct);
     }
 
     //caminho inverso :: DTO -> Entity
@@ -49,10 +48,9 @@ public class ProductService {
         return new Product(dto.getId(), dto.getNome(), dto.getDescription(), dto.getPreco());
     }
     
-    public Product updateData(Product newObj, Product obj){
+    public void updateData(Product newObj, Product obj){
         newObj.setNome(obj.getNome());
         newObj.setDescription(obj.getDescription());
         newObj.setPreco(obj.getPreco());
-        return null;
     }
 }

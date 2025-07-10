@@ -27,12 +27,12 @@ import udemy.nelio.spring_mongo.service.ProductService;
 public class ProductController {
 
     @Autowired
-    private ProductService prService;
+    private ProductService productService ;
 
 //    @RequestMapping(method = RequestMethod.GET)
     @GetMapping
     public ResponseEntity<List<ProductDTO>> findAll() {
-        List<Product> list = prService.findAll();
+        List<Product> list = productService .findAll();
         //convertendo os objetos da lista em objetos DTOs
         List<ProductDTO> listDTO = list.stream().map(x -> new ProductDTO(x)).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDTO);
@@ -40,7 +40,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable String id) {
-        Product product = prService.findById(id);
+        Product product = productService .findById(id);
         //convertendo o objeto em objetos DTO
         ProductDTO productDTO = new ProductDTO(product);
         return ResponseEntity.ok().body(productDTO);
@@ -48,8 +48,8 @@ public class ProductController {
     
     @PostMapping()
     public ResponseEntity<Void> insert(@RequestBody ProductDTO dto){
-        Product product = prService.fromDTO(dto);
-        product = prService.insert(product);
+        Product product = productService .fromDTO(dto);
+        product = productService .insert(product);
         // Constrói a URI a partir da requisição ATUAL, preservando o "/products"
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}") // Adiciona o ID ao final da URL atual
@@ -60,16 +60,16 @@ public class ProductController {
     
     @PutMapping(value = "/{id}")
     public ResponseEntity<Void> update(@RequestBody ProductDTO dto, @PathVariable String id) {
-        Product obj = prService.fromDTO(dto);
-        obj.setId(id);
-        obj = prService.update(obj);
+        Product productFromRequest  = productService .fromDTO(dto);
+        productFromRequest .setId(id);
+        productFromRequest  = productService .update(productFromRequest);
         return ResponseEntity.noContent().build();
     }
     
     
     @DeleteMapping("/{id}")
     public ResponseEntity<ProductDTO> delete(@PathVariable String id) {
-        prService.delete(id);
+        productService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
