@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import udemy.nelio.spring_mongo.dto.CategoryMinDTO;
 
 /**
  *
@@ -17,7 +18,7 @@ public class Product implements Serializable {
     private String nome;
     private String description;
     private Double preco;
-    private Category category;
+    private CategoryMinDTO categoryMinDTO;
 
     public Product() {
     }
@@ -30,20 +31,20 @@ public class Product implements Serializable {
         this.preco = preco;
     }
 
-    public Product(String id, String nome, String description, Double preco, Category category) {
+    public Product(String id, String nome, String description, Double preco, CategoryMinDTO categoryMinDTO) {
         this.id = id;
         this.nome = nome;
         this.description = description;
         this.preco = preco;
-        this.category = category;
+        this.categoryMinDTO = categoryMinDTO;
     }
 
-    public Category getCategory() {
-        return category;
+    public CategoryMinDTO getCategory() {
+        return categoryMinDTO;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategory(CategoryMinDTO categoryMinDTO) {
+        this.categoryMinDTO = categoryMinDTO;
     }
 
     public String getId() {
