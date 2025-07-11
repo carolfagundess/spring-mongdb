@@ -8,8 +8,10 @@ import java.util.TimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import udemy.nelio.spring_mongo.model.Category;
 import udemy.nelio.spring_mongo.model.PriceVariation;
 import udemy.nelio.spring_mongo.model.Product;
+import udemy.nelio.spring_mongo.repository.CategoryRepository;
 import udemy.nelio.spring_mongo.repository.PriceVariationRepository;
 import udemy.nelio.spring_mongo.repository.ProductRepository;
 
@@ -26,6 +28,8 @@ public class Instantiation implements CommandLineRunner {
     private ProductRepository repositoryProduct;
     @Autowired
     private PriceVariationRepository repositoryPriceV;
+    @Autowired
+    private CategoryRepository repositoryCategory;
 
     @Override
     public void run(String... args) throws Exception {
@@ -35,12 +39,21 @@ public class Instantiation implements CommandLineRunner {
 
         repositoryProduct.deleteAll();
         repositoryPriceV.deleteAll();
+        repositoryCategory.deleteAll();
 
-        Product p1 = new Product(null, "Bolo Red Velvet", "Bolo aveludado vermelho com recheio e cobertura cremosa de cream cheese frosting. Fatias generosas.", 89.90);
-        Product p2 = new Product(null, "Torta de Limão com Merengue", "Massa crocante, recheio de creme de limão siciliano azedinho e uma cobertura de merengue suíço tostado.", 75.00);
-        Product p3 = new Product(null, "Caixa de Macarons Sortidos (12 unidades)", "Doze macarons frescos e coloridos nos sabores: pistache, framboesa, chocolate belga e baunilha.", 65.50);
-        Product p4 = new Product(null, "Cheesecake de Frutas Vermelhas", "Cheesecake cremoso sobre base de biscoito, coberto com uma calda artesanal de morangos, amoras e mirtilos.", 95.00);
-        Product p5 = new Product(null, "Éclair de Chocolate (Bomba)", "Massa choux leve e aerada, recheada com creme de confeiteiro de chocolate meio amargo e coberta com fondant de chocolate.", 18.90);
+        Category category1 = new Category("cat-01", "Bolos", "Bolos fofos e recheados para todas as ocasiões.");
+        Category category2 = new Category("cat-02", "Tortas", "Tortas doces com massas crocantes e recheios cremosos.");
+        Category category3 = new Category("cat-03", "Sobremesas Geladas", "Cheesecakes, mousses e outras delícias para refrescar.");
+        Category category4 = new Category("cat-04", "Macarons e Doces Finos", "Pequenas delícias coloridas e sofisticadas.");
+        Category category5 = new Category("cat-05", "Pâtisserie Clássica", "Doces tradicionais da confeitaria francesa, como éclairs e mil-folhas.");
+
+        repositoryCategory.saveAll(Arrays.asList(category1, category2, category3, category4, category5));
+
+        Product p1 = new Product(null, "Bolo Red Velvet", "Bolo aveludado vermelho com recheio e cobertura cremosa de cream cheese frosting. Fatias generosas.", 89.90, category1);
+        Product p2 = new Product(null, "Torta de Limão com Merengue", "Massa crocante, recheio de creme de limão siciliano azedinho e uma cobertura de merengue suíço tostado.", 75.00, category2);
+        Product p3 = new Product(null, "Caixa de Macarons Sortidos (12 unidades)", "Doze macarons frescos e coloridos nos sabores: pistache, framboesa, chocolate belga e baunilha.", 65.50, category4);
+        Product p4 = new Product(null, "Cheesecake de Frutas Vermelhas", "Cheesecake cremoso sobre base de biscoito, coberto com uma calda artesanal de morangos, amoras e mirtilos.", 95.00, category3);
+        Product p5 = new Product(null, "Éclair de Chocolate (Bomba)", "Massa choux leve e aerada, recheada com creme de confeiteiro de chocolate meio amargo e coberta com fondant de chocolate.", 18.90, category5);
 
         repositoryProduct.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 
