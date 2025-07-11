@@ -22,15 +22,7 @@ public class Product implements Serializable {
 
     public Product() {
     }
-
-    //sobrecarga provisoria
-    public Product(String id, String nome, String description, Double preco) {
-        this.id = id;
-        this.nome = nome;
-        this.description = description;
-        this.preco = preco;
-    }
-
+    
     public Product(String id, String nome, String description, Double preco, CategoryMinDTO categoryMinDTO) {
         this.id = id;
         this.nome = nome;

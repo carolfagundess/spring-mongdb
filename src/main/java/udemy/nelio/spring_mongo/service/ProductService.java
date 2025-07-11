@@ -45,12 +45,13 @@ public class ProductService {
 
     //caminho inverso :: DTO -> Entity
     public Product fromDTO(ProductDTO dto) {
-        return new Product(dto.getId(), dto.getNome(), dto.getDescription(), dto.getPreco());
+        return new Product(dto.getId(), dto.getNome(), dto.getDescription(), dto.getPreco(), dto.getCategory());
     }
     
     public void updateData(Product newObj, Product obj){
         newObj.setNome(obj.getNome());
         newObj.setDescription(obj.getDescription());
         newObj.setPreco(obj.getPreco());
+        newObj.setCategory(obj.getCategory());
     }
 }
