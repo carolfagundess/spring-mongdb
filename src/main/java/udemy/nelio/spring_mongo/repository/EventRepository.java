@@ -9,6 +9,6 @@ import udemy.nelio.spring_mongo.model.Event;
  * @author carol
  */
 @Repository
-public interface SeasonalEventRepository extends MongoRepository<Event, String> {
+public interface EventRepository extends MongoRepository<Event, String> {
 
 }

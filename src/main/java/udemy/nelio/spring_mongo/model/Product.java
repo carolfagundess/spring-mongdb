@@ -1,6 +1,8 @@
 package udemy.nelio.spring_mongo.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -16,33 +18,31 @@ public class Product implements Serializable {
 
     @Id
     private String id;
-    private String nome;
+    private String name;
     private String description;
     private Double preco;
-    
+    //aninhamentos
     private CategoryMinDTO category;
-    
+    //objetos por referencia
     @DBRef
     private Event event;
+    @DBRef
+    private List<Ingredient> ingredients = new ArrayList<>();
 
     public Product() {
     }
     
     // CONSTRUTOR PRINCIPAL (completo)
-    public Product(String id, String nome, String description, Double preco, CategoryMinDTO category, Event event) {
+    public Product(String id, String name, String description, Double preco, CategoryMinDTO category) {
         this.id = id;
-        this.nome = nome;
+        this.name = name;
         this.description = description;
         this.preco = preco;
         this.category = category;
-        this.event = event;
     }
 
-    // --- NOVO CONSTRUTOR PARA PRODUTOS NORMAIS (sem evento) ---
-    public Product(String id, String nome, String description, Double preco, CategoryMinDTO category) {
-        // 'this(...)' chama o construtor principal, passando 'null' para o campo opcional.
-        // Isso evita a repetição de código.
-        this(id, nome, description, preco, category, null);
+    public List<Ingredient> getIngredients() {
+        return ingredients;
     }
 
     public CategoryMinDTO getCategory() {
@@ -69,12 +69,12 @@ public class Product implements Serializable {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String nome) {
+        this.name = nome;
     }
 
     public String getDescription() {
@@ -117,7 +117,7 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "Product{" + "id=" + id + ", nome=" + nome + ", description=" + description + ", preco=" + preco + '}';
+        return "Product{" + "id=" + id + ", nome=" + name + ", description=" + description + ", preco=" + preco + '}';
     }
 
 }

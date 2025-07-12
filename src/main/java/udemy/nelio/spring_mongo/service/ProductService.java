@@ -67,7 +67,7 @@ public class ProductService {
     }
 
     public void updateData(Product newObj, Product obj) {
-        newObj.setNome(obj.getNome());
+        newObj.setName(obj.getName());
         newObj.setDescription(obj.getDescription());
         newObj.setPreco(obj.getPreco());
         newObj.setCategory(obj.getCategory());

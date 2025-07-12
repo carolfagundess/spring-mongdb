@@ -29,12 +29,12 @@ import udemy.nelio.spring_mongo.service.ProductService;
 public class ProductController {
 
     @Autowired
-    private ProductService productService ;
+    private ProductService serviceProduct ;
 
 //    @RequestMapping(method = RequestMethod.GET)
     @GetMapping
     public ResponseEntity<List<ProductDTO>> findAll() {
-        List<Product> list = productService .findAll();
+        List<Product> list = serviceProduct .findAll();
         //convertendo os objetos da lista em objetos DTOs
         List<ProductDTO> listDTO = list.stream().map(x -> new ProductDTO(x)).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDTO);
@@ -42,7 +42,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable String id) {
-        Product product = productService .findById(id);
+        Product product = serviceProduct .findById(id);
         //convertendo o objeto em objetos DTO
         ProductDTO productDTO = new ProductDTO(product);
         return ResponseEntity.ok().body(productDTO);
@@ -50,8 +50,8 @@ public class ProductController {
     
     @PostMapping()
     public ResponseEntity<Void> insert(@RequestBody ProductDTO dto){
-        Product product = productService .fromDTO(dto);
-        product = productService .insert(product);
+        Product product = serviceProduct .fromDTO(dto);
+        product = serviceProduct .insert(product);
         // Constrói a URI a partir da requisição ATUAL, preservando o "/products"
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}") // Adiciona o ID ao final da URL atual
@@ -62,27 +62,25 @@ public class ProductController {
     
     @PutMapping(value = "/{id}")
     public ResponseEntity<Void> update(@RequestBody ProductDTO dto, @PathVariable String id) {
-        Product productFromRequest  = productService .fromDTO(dto);
+        Product productFromRequest  = serviceProduct .fromDTO(dto);
         productFromRequest .setId(id);
-        productFromRequest  = productService .update(productFromRequest);
+        productFromRequest  = serviceProduct .update(productFromRequest);
         return ResponseEntity.noContent().build();
     }
     
     @DeleteMapping("/{id}")
     public ResponseEntity<ProductDTO> delete(@PathVariable String id) {
-        productService.delete(id);
+        serviceProduct.delete(id);
         return ResponseEntity.noContent().build();
     }
     
         // --- NOVO ENDPOINT ---
-    @GetMapping(value = "/{id}/event")
+    @GetMapping(value = "/{id}/events")
     public ResponseEntity<EventDTO> findEventFromProduct(@PathVariable String id) {
         // 1. Chama o serviço para obter a ENTIDADE do evento
-        Event eventEntity = productService.findEventByProductId(id);
-        
+        Event eventEntity = serviceProduct.findEventByProductId(id);
         // 2. Converte a ENTIDADE para um DTO antes de retornar na resposta
         EventDTO eventDTO = new EventDTO(eventEntity);
-        
         // 3. Retorna o DTO com o status HTTP 200 OK
         return ResponseEntity.ok().body(eventDTO);
     }
