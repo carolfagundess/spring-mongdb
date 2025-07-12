@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import udemy.nelio.spring_mongo.dto.EventDTO;
 import udemy.nelio.spring_mongo.dto.ProductDTO;
+import udemy.nelio.spring_mongo.model.Event;
 import udemy.nelio.spring_mongo.model.Product;
 import udemy.nelio.spring_mongo.service.ProductService;
 
@@ -66,10 +68,22 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
     
-    
     @DeleteMapping("/{id}")
     public ResponseEntity<ProductDTO> delete(@PathVariable String id) {
         productService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+    
+        // --- NOVO ENDPOINT ---
+    @GetMapping(value = "/{id}/event")
+    public ResponseEntity<EventDTO> findEventFromProduct(@PathVariable String id) {
+        // 1. Chama o serviço para obter a ENTIDADE do evento
+        Event eventEntity = productService.findEventByProductId(id);
+        
+        // 2. Converte a ENTIDADE para um DTO antes de retornar na resposta
+        EventDTO eventDTO = new EventDTO(eventEntity);
+        
+        // 3. Retorna o DTO com o status HTTP 200 OK
+        return ResponseEntity.ok().body(eventDTO);
     }
 }

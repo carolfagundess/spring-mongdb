@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  *
  * @author carol
  */
-@Document
+@Document(collection = "category")
 public class Category implements Serializable{
     
     @Id

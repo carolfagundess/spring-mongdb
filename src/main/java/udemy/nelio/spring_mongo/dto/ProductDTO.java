@@ -15,6 +15,7 @@ public class ProductDTO implements Serializable {
     private String description;
     private Double preco;
     private CategoryMinDTO category; // <-- NOVO CAMPO ADICIONADO
+    private EventMinDTO event;
 
     public ProductDTO() {
     }
@@ -24,9 +25,13 @@ public class ProductDTO implements Serializable {
         this.nome = productEntity.getNome();
         this.description = productEntity.getDescription();
         this.preco = productEntity.getPreco();
-        // A entidade 'productEntity' já tem o objeto 'CategoryMinDTO' que precisamos.
-        // Basta copiar a referência desse objeto para o nosso DTO.
+        
         this.category = productEntity.getCategory();
+        // Só tente criar o EventMinDTO se o evento existir no produto.
+        if (productEntity.getEvent() != null) {
+            this.event = new EventMinDTO(productEntity.getEvent());
+        }
+        // Se for nulo, o campo 'event' do DTO permanecerá nulo, o que está correto.
     }
 
     public CategoryMinDTO getCategory() {
@@ -35,6 +40,14 @@ public class ProductDTO implements Serializable {
 
     public void setCategory(CategoryMinDTO category) {
         this.category = category;
+    }
+
+    public EventMinDTO getEvent() {
+        return event;
+    }
+
+    public void setEvent(EventMinDTO event) {
+        this.event = event;
     }
 
     

@@ -3,6 +3,7 @@ package udemy.nelio.spring_mongo.model;
 import java.io.Serializable;
 import java.util.Objects;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import udemy.nelio.spring_mongo.dto.CategoryMinDTO;
 
@@ -10,7 +11,7 @@ import udemy.nelio.spring_mongo.dto.CategoryMinDTO;
  *
  * @author carol
  */
-@Document
+@Document(collection = "product")
 public class Product implements Serializable {
 
     @Id
@@ -18,26 +19,47 @@ public class Product implements Serializable {
     private String nome;
     private String description;
     private Double preco;
-    private CategoryMinDTO categoryMinDTO;
+    
+    private CategoryMinDTO category;
+    
+    @DBRef
+    private Event event;
 
     public Product() {
     }
     
-    public Product(String id, String nome, String description, Double preco, CategoryMinDTO categoryMinDTO) {
+    // CONSTRUTOR PRINCIPAL (completo)
+    public Product(String id, String nome, String description, Double preco, CategoryMinDTO category, Event event) {
         this.id = id;
         this.nome = nome;
         this.description = description;
         this.preco = preco;
-        this.categoryMinDTO = categoryMinDTO;
+        this.category = category;
+        this.event = event;
+    }
+
+    // --- NOVO CONSTRUTOR PARA PRODUTOS NORMAIS (sem evento) ---
+    public Product(String id, String nome, String description, Double preco, CategoryMinDTO category) {
+        // 'this(...)' chama o construtor principal, passando 'null' para o campo opcional.
+        // Isso evita a repetição de código.
+        this(id, nome, description, preco, category, null);
     }
 
     public CategoryMinDTO getCategory() {
-        return categoryMinDTO;
+        return category;
     }
 
     public void setCategory(CategoryMinDTO categoryMinDTO) {
-        this.categoryMinDTO = categoryMinDTO;
+        this.category = categoryMinDTO;
     }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    } 
 
     public String getId() {
         return id;
