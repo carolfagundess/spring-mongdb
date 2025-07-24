@@ -17,6 +17,6 @@ public class IngredientService {
     IngredientRepository ingredientRepository;
 
     public List<Ingredient> findByName(String text) {
-        return ingredientRepository.findByNameContainingIgnoreCase(text);
+        return ingredientRepository.findByName(text);
     }
 }

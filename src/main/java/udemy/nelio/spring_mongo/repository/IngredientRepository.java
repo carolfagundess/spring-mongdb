@@ -3,6 +3,7 @@ package udemy.nelio.spring_mongo.repository;
 
 import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 import udemy.nelio.spring_mongo.model.Ingredient;
 
@@ -13,5 +14,9 @@ import udemy.nelio.spring_mongo.model.Ingredient;
 @Repository
 public interface IngredientRepository extends MongoRepository<Ingredient, String>{
     
-    public List<Ingredient> findByNameContainingIgnoreCase(String text);
+    List<Ingredient> findByNameContainingIgnoreCase(String text);
+    
+    @Query("{ 'name': { $regex: ?0, $options: 'i' } }")
+    List<Ingredient> findByName(String text);
 }
+        
