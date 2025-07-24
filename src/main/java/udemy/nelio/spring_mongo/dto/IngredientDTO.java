@@ -1,6 +1,8 @@
 
 package udemy.nelio.spring_mongo.dto;
 
+import udemy.nelio.spring_mongo.model.Ingredient;
+
 /**
  *
  * @author carol
@@ -9,15 +11,13 @@ public class IngredientDTO {
     
     private String id;
     private String name;
-    private Double quantity;
 
     public IngredientDTO() {
     }
 
-    public IngredientDTO(String id, String name, Double quantity) {
-        this.id = id;
-        this.name = name;
-        this.quantity = quantity;
+    public IngredientDTO(Ingredient ingredient) {
+        this.id = ingredient.getId();
+        this.name = ingredient.getName();
     }
 
     public String getId() {
@@ -35,14 +35,4 @@ public class IngredientDTO {
     public void setName(String name) {
         this.name = name;
     }
-
-    public Double getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Double quantity) {
-        this.quantity = quantity;
-    }
-    
-    
 }

@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import udemy.nelio.spring_mongo.dto.EventDTO;
+import udemy.nelio.spring_mongo.dto.IngredientDTO;
 import udemy.nelio.spring_mongo.dto.ProductDTO;
 import udemy.nelio.spring_mongo.model.Event;
+import udemy.nelio.spring_mongo.model.Ingredient;
 import udemy.nelio.spring_mongo.model.Product;
 import udemy.nelio.spring_mongo.service.ProductService;
 
@@ -29,12 +31,12 @@ import udemy.nelio.spring_mongo.service.ProductService;
 public class ProductController {
 
     @Autowired
-    private ProductService serviceProduct ;
+    private ProductService serviceProduct;
 
 //    @RequestMapping(method = RequestMethod.GET)
     @GetMapping
     public ResponseEntity<List<ProductDTO>> findAll() {
-        List<Product> list = serviceProduct .findAll();
+        List<Product> list = serviceProduct.findAll();
         //convertendo os objetos da lista em objetos DTOs
         List<ProductDTO> listDTO = list.stream().map(x -> new ProductDTO(x)).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDTO);
@@ -42,16 +44,16 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable String id) {
-        Product product = serviceProduct .findById(id);
+        Product product = serviceProduct.findById(id);
         //convertendo o objeto em objetos DTO
         ProductDTO productDTO = new ProductDTO(product);
         return ResponseEntity.ok().body(productDTO);
     }
-    
+
     @PostMapping()
-    public ResponseEntity<Void> insert(@RequestBody ProductDTO dto){
-        Product product = serviceProduct .fromDTO(dto);
-        product = serviceProduct .insert(product);
+    public ResponseEntity<Void> insert(@RequestBody ProductDTO dto) {
+        Product product = serviceProduct.fromDTO(dto);
+        product = serviceProduct.insert(product);
         // Constrói a URI a partir da requisição ATUAL, preservando o "/products"
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}") // Adiciona o ID ao final da URL atual
@@ -59,22 +61,22 @@ public class ProductController {
                 .toUri();
         return ResponseEntity.created(uri).build();
     }
-    
+
     @PutMapping(value = "/{id}")
     public ResponseEntity<Void> update(@RequestBody ProductDTO dto, @PathVariable String id) {
-        Product productFromRequest  = serviceProduct .fromDTO(dto);
-        productFromRequest .setId(id);
-        productFromRequest  = serviceProduct .update(productFromRequest);
+        Product productFromRequest = serviceProduct.fromDTO(dto);
+        productFromRequest.setId(id);
+        productFromRequest = serviceProduct.update(productFromRequest);
         return ResponseEntity.noContent().build();
     }
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ProductDTO> delete(@PathVariable String id) {
         serviceProduct.delete(id);
         return ResponseEntity.noContent().build();
     }
-    
-        // --- NOVO ENDPOINT ---
+
+    // --- NOVO ENDPOINT ---
     @GetMapping(value = "/{id}/events")
     public ResponseEntity<EventDTO> findEventFromProduct(@PathVariable String id) {
         // 1. Chama o serviço para obter a ENTIDADE do evento
@@ -83,5 +85,12 @@ public class ProductController {
         EventDTO eventDTO = new EventDTO(eventEntity);
         // 3. Retorna o DTO com o status HTTP 200 OK
         return ResponseEntity.ok().body(eventDTO);
+    }
+
+    @GetMapping(value = "{id}/ingredients")
+    public ResponseEntity<List<IngredientDTO>> findIngredientsFromProduct(@PathVariable String id) {
+        List<Ingredient> ingredients = serviceProduct.findIngredientsById(id);
+        List<IngredientDTO> listDto = ingredients.stream().map(x -> new IngredientDTO(x)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
     }
 }

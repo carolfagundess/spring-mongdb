@@ -46,6 +46,7 @@ public class Instantiation implements CommandLineRunner {
         repositoryPriceV.deleteAll();
         repositoryCategory.deleteAll();
         eventRepository.deleteAll();
+        ingredientRepository.deleteAll();
 
         Event veraoEvent = new Event(null, "Especial de Verão 2026",
                 "Celebre com nossos doces gelados!", LocalDate.of(2026, 3, 20), LocalDate.of(2026, 4, 5));

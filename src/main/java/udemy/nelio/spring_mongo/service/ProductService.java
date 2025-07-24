@@ -1,10 +1,12 @@
 package udemy.nelio.spring_mongo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import udemy.nelio.spring_mongo.dto.ProductDTO;
 import udemy.nelio.spring_mongo.model.Event;
+import udemy.nelio.spring_mongo.model.Ingredient;
 import udemy.nelio.spring_mongo.model.Product;
 import udemy.nelio.spring_mongo.repository.ProductRepository;
 import udemy.nelio.spring_mongo.service.execptions.ObjectNotFoundException;
@@ -58,6 +60,15 @@ public class ProductService {
         //    O Spring Data fará a busca no banco de dados para carregar os dados completos
         //    do SeasonalEvent somente agora, quando ele é de fato acessado.
         return product.getEvent();
+    }
+    
+    public List<Ingredient> findIngredientsById(String id){
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients = findById(id).getIngredients();
+        if (findById(id).getIngredients() == null) {
+            throw new ObjectNotFoundException("O produto com ID: " + findById(id) + " não está associado a nenhum evento.");
+        }
+        return ingredients;
     }
 
     //METODOS AUXILIARES
